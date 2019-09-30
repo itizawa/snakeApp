@@ -124,7 +124,7 @@ class App extends React.Component {
         <div id='map' style={mapStyle}>
           {mapTiles}
         </div>
-        {(this.isGameover()) && <><h2>GameOver</h2><button>Retry</button></>}
+        {(this.isGameover()) && <h2>GameOver</h2>}
       </div >
     );
   }
