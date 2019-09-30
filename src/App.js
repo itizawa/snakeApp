@@ -31,7 +31,7 @@ class App extends React.Component {
 
     for (let index = 0; index < gridSize * gridSize; index++) {
       mapTiles.push(
-        <div style={tileStyle}></div>
+        <div key={index} style={tileStyle}></div>
       )
     }
 
