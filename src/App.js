@@ -36,17 +36,29 @@ class App extends React.Component {
     this.moveSnake()
   }
 
+  isFrameOut() {
+    const { gridSize } = this.state
+    const { xPosition, yPosition } = this.state.snakeStatus
+    return xPosition < 0 || gridSize <= xPosition || yPosition < 0 || gridSize <= yPosition
+  }
+
+  isGameover() {
+    return this.isFrameOut()
+  }
+
   returnHeadIndex() {
-    // TODO はみでた時にnullを返す
+    if (this.isGameover()) return
     return this.state.snakeStatus.yPosition * this.state.gridSize + this.state.snakeStatus.xPosition
   }
 
   countTime() {
+    if (this.isGameover()) return
     this.setState({ time: this.state.time + 1 })
     setTimeout(this.countTime, 1000)
   }
 
   moveSnake() {
+    if (this.isGameover()) return
     const newSnakeStatus = this.state.snakeStatus
     let { speed, direction } = newSnakeStatus
     switch (direction) {
@@ -105,6 +117,7 @@ class App extends React.Component {
         <div id='map' style={mapStyle}>
           {mapTiles}
         </div>
+        {(this.isGameover()) && <><h2>GameOver</h2><button>Retry</button></>}
       </div >
     );
   }
