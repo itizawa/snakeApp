@@ -25,3 +25,8 @@
   border: 1px solid white;
   background: whitesmoke;
 }
+
+/* ヘビの頭の色 */
+.snakeHead {
+  background: dimgray;
+}

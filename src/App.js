@@ -43,6 +43,7 @@ class App extends React.Component {
       
       const tyleStyle = ClassNames({
         "defaultTile": true,
+        "snakeHead": this.returnHeadIndex() === index
       });
 
       mapTiles.push(
