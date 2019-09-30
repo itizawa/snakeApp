@@ -9,6 +9,7 @@ class App extends React.Component {
     this.state = {
       score: 0,
       gridSize: 10,
+      time: 0,
 
       snakeStatus: {
         xPosition: 1,
@@ -18,11 +19,21 @@ class App extends React.Component {
       }
 
     }
+    this.countTime = this.countTime.bind(this)
+  }
+
+  componentDidMount() {
+    this.countTime()
   }
 
   returnHeadIndex() {
     // TODO はみでた時にnullを返す
     return this.state.snakeStatus.yPosition * this.state.gridSize + this.state.snakeStatus.xPosition
+  }
+
+  countTime() {
+    this.setState({ time: this.state.time + 1 })
+    setTimeout(this.countTime, 1000)
   }
 
   render() {
@@ -40,7 +51,7 @@ class App extends React.Component {
     const mapTiles = []
 
     for (let index = 0; index < gridSize * gridSize; index++) {
-      
+
       const tyleStyle = ClassNames({
         "defaultTile": true,
         "snakeHead": this.returnHeadIndex() === index
@@ -54,7 +65,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Snake Game</h1>
-        <p>SCORE:{this.state.score}</p>
+        <p>SCORE:{this.state.score} TIME:{this.state.time}</p>
         <div id='map' style={mapStyle}>
           {mapTiles}
         </div>
