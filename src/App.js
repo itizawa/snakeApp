@@ -10,6 +10,7 @@ class App extends React.Component {
       score: 0,
       gridSize: 10,
       time: 0,
+      fruitIndex: 0,
 
       snakeStatus: {
         xPosition: 1,
@@ -23,6 +24,7 @@ class App extends React.Component {
     this.countTime = this.countTime.bind(this)
     this.moveSnake = this.moveSnake.bind(this)
     this.onChangeDirection = this.onChangeDirection.bind(this)
+    this.randomizeFruitIndex = this.randomizeFruitIndex.bind(this)
   }
 
   // ゲーム開始
@@ -33,6 +35,7 @@ class App extends React.Component {
       this.onChangeDirection(event.keyCode)
     }
 
+    this.randomizeFruitIndex()
     this.countTime()
     this.moveSnake()
   }
@@ -90,6 +93,12 @@ class App extends React.Component {
     }
   }
 
+  randomizeFruitIndex() {
+    const { gridSize } = this.state
+    const fruitIndex = Math.floor(Math.random() * gridSize * gridSize)  // 0 〜 99 の乱数
+    this.setState({ fruitIndex })
+  }
+
   render() {
     const { gridSize } = this.state
 
@@ -110,6 +119,7 @@ class App extends React.Component {
         "defaultTile": true,
         "snakeHead": this.returnHeadIndex() === index,
         "snakeBody": this.state.snakeStatus.body.includes(index),
+        "fruitColor": this.state.fruitIndex === index,
       });
 
       mapTiles.push(

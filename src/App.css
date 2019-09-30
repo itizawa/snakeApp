@@ -35,3 +35,8 @@
 .snakeBody {
   background: darkgray;
 }
+
+/* フルーツの色 */
+.fruitColor {
+background: orangered;
+}
