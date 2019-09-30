@@ -20,10 +20,13 @@ class App extends React.Component {
 
     }
     this.countTime = this.countTime.bind(this)
+    this.moveSnake = this.moveSnake.bind(this)
   }
 
+  // ゲーム開始
   componentDidMount() {
     this.countTime()
+    this.moveSnake()
   }
 
   returnHeadIndex() {
@@ -34,6 +37,20 @@ class App extends React.Component {
   countTime() {
     this.setState({ time: this.state.time + 1 })
     setTimeout(this.countTime, 1000)
+  }
+
+  moveSnake() {
+    const newSnakeStatus = this.state.snakeStatus
+    let { speed, direction } = newSnakeStatus
+    switch (direction) {
+      case '→': newSnakeStatus.xPosition++; break;
+      case '↓': newSnakeStatus.yPosition++; break;
+      case '←': newSnakeStatus.xPosition--; break;
+      case '↑': newSnakeStatus.yPosition--; break;
+      default: this.setState({ snakeStatus: newSnakeStatus });
+    }
+    this.setState({ score: this.state.score + speed / 100 })
+    setTimeout(this.moveSnake, speed)
   }
 
   render() {
