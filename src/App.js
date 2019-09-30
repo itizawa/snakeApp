@@ -7,7 +7,20 @@ class App extends React.Component {
     this.state = {
       score: 0,
       gridSize: 10,
+
+      snakeStatus: {
+        xPosition: 1,
+        yPosition: 3,
+        direction: '→',
+        speed: 500
+      }
+
     }
+  }
+
+  returnHeadIndex() {
+    // TODO はみでた時にnullを返す
+    return this.state.snakeStatus.yPosition * this.state.gridSize + this.state.snakeStatus.xPosition
   }
 
   render() {
@@ -31,7 +44,7 @@ class App extends React.Component {
 
     for (let index = 0; index < gridSize * gridSize; index++) {
       mapTiles.push(
-        <div key={index} style={tileStyle}></div>
+        <div key={index} style={tileStyle}>{index}</div>
       )
     }
 
