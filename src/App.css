@@ -30,3 +30,8 @@
 .snakeHead {
   background: dimgray;
 }
+
+/* ヘビの体の色 */
+.snakeBody {
+  background: darkgray;
+}

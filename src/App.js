@@ -15,7 +15,8 @@ class App extends React.Component {
         xPosition: 1,
         yPosition: 3,
         direction: '→',
-        speed: 500
+        speed: 500,
+        body: [0],
       }
 
     }
@@ -60,7 +61,12 @@ class App extends React.Component {
   moveSnake() {
     if (this.isGameover()) return
     const newSnakeStatus = this.state.snakeStatus
-    let { speed, direction } = newSnakeStatus
+    let { speed, direction, body } = newSnakeStatus
+
+    // 体の最後尾を頭に持ってくる
+    body.shift()
+    body.push(this.returnHeadIndex())
+
     switch (direction) {
       case '→': newSnakeStatus.xPosition++; break;
       case '↓': newSnakeStatus.yPosition++; break;
@@ -102,7 +108,8 @@ class App extends React.Component {
 
       const tyleStyle = ClassNames({
         "defaultTile": true,
-        "snakeHead": this.returnHeadIndex() === index
+        "snakeHead": this.returnHeadIndex() === index,
+        "snakeBody": this.state.snakeStatus.body.includes(index),
       });
 
       mapTiles.push(
