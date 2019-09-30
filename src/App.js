@@ -115,7 +115,7 @@ class App extends React.Component {
 
     for (let index = 0; index < gridSize * gridSize; index++) {
 
-      const tyleStyle = ClassNames({
+      const tileStyle = ClassNames({
         "defaultTile": true,
         "snakeHead": this.returnHeadIndex() === index,
         "snakeBody": this.state.snakeStatus.body.includes(index),
@@ -123,7 +123,7 @@ class App extends React.Component {
       });
 
       mapTiles.push(
-        <div key={index} className={tyleStyle}>{index}</div>
+        <div key={index} className={tileStyle}>{index}</div>
       )
     }
 
