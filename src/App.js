@@ -5,17 +5,19 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      score: 0
+      score: 0,
+      gridSize: 10,
 
     }
   }
 
   render() {
-    const mapStyle={
-      gridSize: '10',
+    const { gridSize } = this.state
+    const mapStyle = {
+      gridSize: gridSize,
       display: 'grid',
-      gridTemplateColumns: 'repeat(10, 30px)',  /* 10列 幅30px */
-      gridTemplateRows: 'repeat(10, 30px)', /* 10行 高さ30px */
+      gridTemplateColumns: `repeat(${gridSize}, 30px)`,
+      gridTemplateRows: `repeat(${gridSize}, 30px)`,
       margin: '0 auto',
       width: '300px'
     }
