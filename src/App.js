@@ -47,7 +47,7 @@ class App extends React.Component {
   }
 
   returnHeadIndex() {
-    if (this.isGameover()) return
+    if (this.isFrameOut()) return null
     return this.state.snakeStatus.yPosition * this.state.gridSize + this.state.snakeStatus.xPosition
   }
 
