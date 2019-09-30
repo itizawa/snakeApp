@@ -21,10 +21,17 @@ class App extends React.Component {
     }
     this.countTime = this.countTime.bind(this)
     this.moveSnake = this.moveSnake.bind(this)
+    this.onChangeDirection = this.onChangeDirection.bind(this)
   }
 
   // ゲーム開始
   componentDidMount() {
+
+    // キーボード入力のイベントをon_keydownメソッドに投げる
+    document.onkeydown = (event) => {
+      this.onChangeDirection(event.keyCode)
+    }
+
     this.countTime()
     this.moveSnake()
   }
@@ -51,6 +58,18 @@ class App extends React.Component {
     }
     this.setState({ score: this.state.score + speed / 100 })
     setTimeout(this.moveSnake, speed)
+  }
+
+  onChangeDirection(keyCode) {
+    const newSnakeStatus = this.state.snakeStatus
+    const { direction } = newSnakeStatus
+    switch (keyCode) {
+      case 37: if (direction !== '→') { newSnakeStatus.direction = '←' }; break;
+      case 38: if (direction !== '↓') { newSnakeStatus.direction = '↑' }; break;
+      case 39: if (direction !== '←') { newSnakeStatus.direction = '→' }; break;
+      case 40: if (direction !== '↑') { newSnakeStatus.direction = '↓' }; break;
+      default: this.setState({ snakeStatus: newSnakeStatus });
+    }
   }
 
   render() {
