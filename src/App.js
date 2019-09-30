@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 
+import ClassNames from 'classnames';
+
 class App extends React.Component {
   constructor() {
     super()
@@ -35,16 +37,16 @@ class App extends React.Component {
       width: '300px'
     }
 
-    const tileStyle = {
-      border: '1px solid white',
-      background: 'whitesmoke'
-    }
-
     const mapTiles = []
 
     for (let index = 0; index < gridSize * gridSize; index++) {
+      
+      const tyleStyle = ClassNames({
+        "defaultTile": true,
+      });
+
       mapTiles.push(
-        <div key={index} style={tileStyle}>{index}</div>
+        <div key={index} className={tyleStyle}>{index}</div>
       )
     }
 
