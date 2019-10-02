@@ -40,6 +40,10 @@ class App extends React.Component {
     this.moveSnake()
   }
 
+  isEatFruit() {
+    return this.state.fruitIndex === this.returnHeadIndex()
+  }
+
   isFrameOut() {
     const { gridSize } = this.state
     const { xPosition, yPosition } = this.state.snakeStatus
@@ -78,6 +82,12 @@ class App extends React.Component {
       default: this.setState({ snakeStatus: newSnakeStatus });
     }
     this.setState({ score: this.state.score + speed / 100 })
+
+    if (this.isEatFruit()) {
+      this.randomizeFruitIndex()
+      this.setState({ score: this.state.score + 100 })
+    }
+    
     setTimeout(this.moveSnake, speed)
   }
 
@@ -91,6 +101,13 @@ class App extends React.Component {
       case 40: if (direction !== '↑') { newSnakeStatus.direction = '↓' }; break;
       default: this.setState({ snakeStatus: newSnakeStatus });
     }
+  }
+
+  // ヘビの体を伸ばす
+  growUpSnake() {
+    const newSnakeStatus = this.state.snakeStatus
+    newSnakeStatus.body.unshift(newSnakeStatus.body[0])
+    this.setState({ snakeStatus: newSnakeStatus });
   }
 
   randomizeFruitIndex() {
