@@ -179,11 +179,7 @@ class App extends React.Component {
         fruitColor: this.state.fruitIndex === index
       });
 
-      mapTiles.push(
-        <div key={index} className={tileStyle}>
-          {index}
-        </div>
-      );
+      mapTiles.push(<div key={index} className={tileStyle} />);
     }
 
     return (
