@@ -16,7 +16,7 @@ class App extends React.Component {
         xPosition: 1,
         yPosition: 3,
         direction: "→",
-        speed: 500,
+        speed: 400,
         body: [0]
       }
     };
@@ -105,9 +105,11 @@ class App extends React.Component {
     if (this.isEatFruit()) {
       this.randomizeFruitIndex();
       body.unshift([0]);
-      newSnakeStatus.speed = speed - 20;
+      if (speed > 50) {
+        newSnakeStatus.speed = speed - 20;
+      }
       this.setState({ snakeStatus: newSnakeStatus });
-      this.setState({ score: this.state.score + 100 });
+      this.setState({ score: this.state.score + body.length*100 });
     }
 
     this.setState({ score: this.state.score + newSnakeStatus.body.length });
@@ -153,7 +155,7 @@ class App extends React.Component {
 
   randomizeFruitIndex() {
     const { gridSize } = this.state;
-    const fruitIndex = Math.floor(Math.random() * gridSize * gridSize); // 0 〜 99 の乱数
+    const fruitIndex = Math.floor(Math.random() * gridSize * gridSize);
     this.setState({ fruitIndex });
   }
 
