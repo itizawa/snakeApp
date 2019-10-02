@@ -81,13 +81,17 @@ class App extends React.Component {
       case '↑': newSnakeStatus.yPosition--; break;
       default: this.setState({ snakeStatus: newSnakeStatus });
     }
-    this.setState({ score: this.state.score + speed / 100 })
 
     if (this.isEatFruit()) {
       this.randomizeFruitIndex()
+      body.unshift([0])
+      newSnakeStatus.speed = speed - 20
+      this.setState({ snakeStatus: newSnakeStatus });
       this.setState({ score: this.state.score + 100 })
     }
-    
+
+    this.setState({ score: this.state.score + newSnakeStatus.body.length })
+
     setTimeout(this.moveSnake, speed)
   }
 
