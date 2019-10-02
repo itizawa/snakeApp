@@ -1,11 +1,11 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-import ClassNames from 'classnames';
+import ClassNames from "classnames";
 
 class App extends React.Component {
   constructor() {
-    super()
+    super();
     this.state = {
       score: 0,
       gridSize: 10,
@@ -15,148 +15,183 @@ class App extends React.Component {
       snakeStatus: {
         xPosition: 1,
         yPosition: 3,
-        direction: '→',
+        direction: "→",
         speed: 500,
-        body: [0],
+        body: [0]
       }
-
-    }
-    this.countTime = this.countTime.bind(this)
-    this.moveSnake = this.moveSnake.bind(this)
-    this.onChangeDirection = this.onChangeDirection.bind(this)
-    this.randomizeFruitIndex = this.randomizeFruitIndex.bind(this)
+    };
+    this.countTime = this.countTime.bind(this);
+    this.moveSnake = this.moveSnake.bind(this);
+    this.onChangeDirection = this.onChangeDirection.bind(this);
+    this.randomizeFruitIndex = this.randomizeFruitIndex.bind(this);
   }
 
   // ゲーム開始
   componentDidMount() {
-
     // キーボード入力のイベントをon_keydownメソッドに投げる
     document.onkeydown = (event) => {
-      this.onChangeDirection(event.keyCode)
-    }
+      this.onChangeDirection(event.keyCode);
+    };
 
-    this.randomizeFruitIndex()
-    this.countTime()
-    this.moveSnake()
+    this.randomizeFruitIndex();
+    this.countTime();
+    this.moveSnake();
   }
 
   isEatFruit() {
-    return this.state.fruitIndex === this.returnHeadIndex()
+    return this.state.fruitIndex === this.returnHeadIndex();
   }
 
   isFrameOut() {
-    const { gridSize } = this.state
-    const { xPosition, yPosition } = this.state.snakeStatus
-    return xPosition < 0 || gridSize <= xPosition || yPosition < 0 || gridSize <= yPosition
+    const { gridSize } = this.state;
+    const { xPosition, yPosition } = this.state.snakeStatus;
+    return (
+      xPosition < 0 ||
+      gridSize <= xPosition ||
+      yPosition < 0 ||
+      gridSize <= yPosition
+    );
   }
 
   isGameover() {
-    return this.isFrameOut()
+    return this.isFrameOut();
   }
 
   returnHeadIndex() {
-    if (this.isFrameOut()) return null
-    return this.state.snakeStatus.yPosition * this.state.gridSize + this.state.snakeStatus.xPosition
+    if (this.isFrameOut()) return null;
+    return (
+      this.state.snakeStatus.yPosition * this.state.gridSize +
+      this.state.snakeStatus.xPosition
+    );
   }
 
   countTime() {
-    if (this.isGameover()) return
-    this.setState({ time: this.state.time + 1 })
-    setTimeout(this.countTime, 1000)
+    if (this.isGameover()) return;
+    this.setState({ time: this.state.time + 1 });
+    setTimeout(this.countTime, 1000);
   }
 
   moveSnake() {
-    if (this.isGameover()) return
-    const newSnakeStatus = this.state.snakeStatus
-    let { speed, direction, body } = newSnakeStatus
+    if (this.isGameover()) return;
+    const newSnakeStatus = this.state.snakeStatus;
+    let { speed, direction, body } = newSnakeStatus;
 
     // 体の最後尾を頭に持ってくる
-    body.shift()
-    body.push(this.returnHeadIndex())
+    body.shift();
+    body.push(this.returnHeadIndex());
 
     switch (direction) {
-      case '→': newSnakeStatus.xPosition++; break;
-      case '↓': newSnakeStatus.yPosition++; break;
-      case '←': newSnakeStatus.xPosition--; break;
-      case '↑': newSnakeStatus.yPosition--; break;
-      default: this.setState({ snakeStatus: newSnakeStatus });
+      case "→":
+        newSnakeStatus.xPosition++;
+        break;
+      case "↓":
+        newSnakeStatus.yPosition++;
+        break;
+      case "←":
+        newSnakeStatus.xPosition--;
+        break;
+      case "↑":
+        newSnakeStatus.yPosition--;
+        break;
+      default:
+        this.setState({ snakeStatus: newSnakeStatus });
     }
 
     if (this.isEatFruit()) {
-      this.randomizeFruitIndex()
-      body.unshift([0])
-      newSnakeStatus.speed = speed - 20
+      this.randomizeFruitIndex();
+      body.unshift([0]);
+      newSnakeStatus.speed = speed - 20;
       this.setState({ snakeStatus: newSnakeStatus });
-      this.setState({ score: this.state.score + 100 })
+      this.setState({ score: this.state.score + 100 });
     }
 
-    this.setState({ score: this.state.score + newSnakeStatus.body.length })
+    this.setState({ score: this.state.score + newSnakeStatus.body.length });
 
-    setTimeout(this.moveSnake, speed)
+    setTimeout(this.moveSnake, speed);
   }
 
   onChangeDirection(keyCode) {
-    const newSnakeStatus = this.state.snakeStatus
-    const { direction } = newSnakeStatus
+    const newSnakeStatus = this.state.snakeStatus;
+    const { direction } = newSnakeStatus;
     switch (keyCode) {
-      case 37: if (direction !== '→') { newSnakeStatus.direction = '←' }; break;
-      case 38: if (direction !== '↓') { newSnakeStatus.direction = '↑' }; break;
-      case 39: if (direction !== '←') { newSnakeStatus.direction = '→' }; break;
-      case 40: if (direction !== '↑') { newSnakeStatus.direction = '↓' }; break;
-      default: this.setState({ snakeStatus: newSnakeStatus });
+      case 37:
+        if (direction !== "→") {
+          newSnakeStatus.direction = "←";
+        }
+        break;
+      case 38:
+        if (direction !== "↓") {
+          newSnakeStatus.direction = "↑";
+        }
+        break;
+      case 39:
+        if (direction !== "←") {
+          newSnakeStatus.direction = "→";
+        }
+        break;
+      case 40:
+        if (direction !== "↑") {
+          newSnakeStatus.direction = "↓";
+        }
+        break;
+      default:
+        this.setState({ snakeStatus: newSnakeStatus });
     }
   }
 
   // ヘビの体を伸ばす
   growUpSnake() {
-    const newSnakeStatus = this.state.snakeStatus
-    newSnakeStatus.body.unshift(newSnakeStatus.body[0])
+    const newSnakeStatus = this.state.snakeStatus;
+    newSnakeStatus.body.unshift(newSnakeStatus.body[0]);
     this.setState({ snakeStatus: newSnakeStatus });
   }
 
   randomizeFruitIndex() {
-    const { gridSize } = this.state
-    const fruitIndex = Math.floor(Math.random() * gridSize * gridSize)  // 0 〜 99 の乱数
-    this.setState({ fruitIndex })
+    const { gridSize } = this.state;
+    const fruitIndex = Math.floor(Math.random() * gridSize * gridSize); // 0 〜 99 の乱数
+    this.setState({ fruitIndex });
   }
 
   render() {
-    const { gridSize } = this.state
+    const { gridSize } = this.state;
 
     const mapStyle = {
       gridSize: gridSize,
-      display: 'grid',
+      display: "grid",
       gridTemplateColumns: `repeat(${gridSize}, 30px)`,
       gridTemplateRows: `repeat(${gridSize}, 30px)`,
-      margin: '0 auto',
-      width: '300px'
-    }
+      margin: "0 auto",
+      width: "300px"
+    };
 
-    const mapTiles = []
+    const mapTiles = [];
 
     for (let index = 0; index < gridSize * gridSize; index++) {
-
       const tileStyle = ClassNames({
-        "defaultTile": true,
-        "snakeHead": this.returnHeadIndex() === index,
-        "snakeBody": this.state.snakeStatus.body.includes(index),
-        "fruitColor": this.state.fruitIndex === index,
+        defaultTile: true,
+        snakeHead: this.returnHeadIndex() === index,
+        snakeBody: this.state.snakeStatus.body.includes(index),
+        fruitColor: this.state.fruitIndex === index
       });
 
       mapTiles.push(
-        <div key={index} className={tileStyle}>{index}</div>
-      )
+        <div key={index} className={tileStyle}>
+          {index}
+        </div>
+      );
     }
 
     return (
       <div className="App">
         <h1>Snake Game</h1>
-        <p>SCORE:{this.state.score} TIME:{this.state.time}</p>
-        <div id='map' style={mapStyle}>
+        <p>
+          SCORE:{this.state.score} TIME:{this.state.time}
+        </p>
+        <div id="map" style={mapStyle}>
           {mapTiles}
         </div>
-        {(this.isGameover()) && <h2>GameOver</h2>}
-      </div >
+        {this.isGameover() && <h2>GameOver</h2>}
+      </div>
     );
   }
 }
