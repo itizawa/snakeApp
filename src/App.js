@@ -42,6 +42,11 @@ class App extends React.Component {
     return this.state.fruitIndex === this.returnHeadIndex();
   }
 
+  isSuicided() {
+    const headIndex = this.returnHeadIndex()
+    return this.state.snakeStatus.body.includes(headIndex);
+  }
+
   isFrameOut() {
     const { gridSize } = this.state;
     const { xPosition, yPosition } = this.state.snakeStatus;
@@ -54,7 +59,7 @@ class App extends React.Component {
   }
 
   isGameover() {
-    return this.isFrameOut();
+    return this.isFrameOut() || this.isSuicided();
   }
 
   returnHeadIndex() {
